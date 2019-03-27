@@ -21,10 +21,11 @@ class WolframAlpha:
         self.answer = next(result.results).text
 
         return self.answer
-
+'''
     def audio(self):
         tts = gTTS(text=self.answer, lang=self.lang)
         tts.save("wolfram.mp3")
         playsound("wolfram.mp3")
         os.remove("wolfram.mp3")
 
+'''

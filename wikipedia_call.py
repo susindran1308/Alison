@@ -2,6 +2,7 @@ import os
 import wikipedia
 from gtts import gTTS
 from playsound import playsound
+from wolframalpha_call import WolframAlpha
 
 class Wikipedia:
     def __init__(self, lang):
@@ -18,10 +19,16 @@ class Wikipedia:
             wikipedia.set_lang(self.lang)
             self.answer = wikipedia.summary("alison d'laurentis", sentences=3)
             return self.answer
+        else:
+            try:
+                wolf = WolframAlpha(self.lang)
+                self.answer = wolf.execute(question)
+                return self.answer
 
-        wikipedia.set_lang(self.lang)
-        self.answer = wikipedia.summary(question, sentences=3)
-        return self.answer
+            except Exception:
+                wikipedia.set_lang(self.lang)
+                self.answer = wikipedia.summary(question, sentences=3)
+                return self.answer
 
     def audio(self):
         tts = gTTS(text=self.answer, lang=self.lang)
