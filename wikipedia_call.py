@@ -16,7 +16,7 @@ class Wikipedia:
         elif question.lower() in ["how are you", "are you ok", "how are you?", "are you ok?"]:
             return "I am great. How are you?"
         elif question.lower() in ["alison", "why is your name alison", "why is your name alison?"]:
-            wikipedia.set_lang(self.lang)
+            # wikipedia.set_lang(self.lang)
             self.answer = wikipedia.summary("alison d'laurentis", sentences=3)
             return self.answer
         else:

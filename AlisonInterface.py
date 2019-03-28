@@ -5,6 +5,7 @@ from playsound import playsound
 import os
 from googletrans import Translator
 import wikipedia_call
+import speech_recognition as sr
 
 
 class Interface():
@@ -52,10 +53,14 @@ class Interface():
         button = QtWidgets.QPushButton('Ask Alison', self.w)
         button.move(220, 100)
 
+        button1 = QtWidgets.QPushButton('Speak', self.w)
+        button1.move(320, 100)
+
         ans = QtWidgets.QTextEdit(self.w)
         ans.move(50, 150)
         ans.resize(380, 200)
         ans.setText("_____")
+
 
         def on_click():
             wiki = wikipedia_call.Wikipedia(self.lang)
@@ -67,8 +72,25 @@ class Interface():
             self.w.update()
             wiki.audio()
 
+        def on_click_mc():
+            r = sr.Recognizer()
+
+            with sr.Microphone() as source:
+                audio = r.listen(source)
+
+            try:
+                answer = r.recognize_google(audio)
+                textbox.setText(answer)
+                on_click()
+
+            except sr.UnknownValueError:
+                print("Google speech recognition couldn't understand audio")
+            except sr.RequestError as e:
+                print("Could not request results from Google Cloud Speech service; {0}".format(e))
+
         # connect the signals to the slots
         button.clicked.connect(on_click)
+        button1.clicked.connect(on_click_mc)
 
         self.w.show()
         tts = gTTS(text=alison_text, lang=self.lang)
